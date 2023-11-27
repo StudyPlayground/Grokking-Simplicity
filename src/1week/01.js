@@ -1,7 +1,7 @@
 var x = 2;
 
-function lineFunction() {
-  return 2 * x + 3;
+function lineFunction(xParam = x) {
+  return 2 * xParam + 3;
 }
 
 exports.lineFunction = lineFunction;
