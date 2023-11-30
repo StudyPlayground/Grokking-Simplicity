@@ -1,12 +1,8 @@
-function accumulate(arr) {
-  const copyArr = arr.slice();
-  let accumulator = 0;
+const sum = (a,b) => a+b 
 
-  for (let i = 0; i < copyArr.length; i++) {
-    accumulator += copyArr[i];
-  }
-
-  return accumulator;
+function accumulate(arr,combiner = sum, initialVal = 0) {
+ 
+  return arr.reduce(combiner, initialVal);
 }
 
 exports.accumulate = accumulate;
