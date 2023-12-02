@@ -1,15 +1,10 @@
+const { accumulate } = require('./02.js');
+
+const  arraySlice= (arr,startIdx=0, EndIdx) => arr.slice(startIdx, EndIdx)
+const multiArrMapAndFlatten = (multiArr, mapper) => multiArr.map(mapper).flat()
+
 function multiDimensionalAccumulate(multiDimensionalArr) {
-  let accumulator = 0;
-
-  for (let i = 0; i < multiDimensionalArr.length; i++) {
-    for (let j = 0; j < multiDimensionalArr[i].length; j++) {
-      if (j < i) {
-        accumulator += multiDimensionalArr[i][j];
-      }
-    }
-  }
-
-  return accumulator;
+  return accumulate(multiArrMapAndFlatten(multiDimensionalArr,arraySlice))
 }
 
 exports.multiDimensionalAccumulate = multiDimensionalAccumulate;
