@@ -1,15 +1,15 @@
+function isLongerThan(word, length) {
+  return word.length > length;
+}
+
+function makeCapitalWithCondition(word, conditionSatisfied) {
+  return conditionSatisfied ? word.toUpperCase() : word.toLowerCase();
+}
+
 function convertToConditionalUpperCase(words) {
-  let capitalized = [];
-
-  for (let i = 0; i < words.length; i++) {
-    if (words[i].length > 5) {
-      capitalized.push(words[i].toUpperCase());
-    } else {
-      capitalized.push(words[i].toLowerCase());
-    }
-  }
-
-  return capitalized;
+  return words.map((word) =>
+    makeCapitalWithCondition(word, isLongerThan(word, 5))
+  );
 }
 
 exports.convertToConditionalUpperCase = convertToConditionalUpperCase;
