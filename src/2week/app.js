@@ -1,6 +1,43 @@
 var shopping_cart = [];
 var shopping_cart_total = 0;
 
+// cart layer
+const cartLayer =    document.getElementById('cart-layer');
+const cartList = document.getElementById('cart-list');
+const cartIcon = document.querySelector('.carts>.icons');
+
+function open_cart () {
+  cartLayer.style.display = 'block'
+}
+
+function close_cart(){
+  cartLayer.style.display = 'none'
+}
+
+function show_cart_list() {
+  cartList.innerHTML= shopping_cart.map( item => `
+  <div class='cart-item'>
+  <span class='category'>${item.category}</span>
+    <h3 class='name'>${item.name}</h3>
+    <p class='price'>${item.price}</p>
+  </div>
+  `
+)
+}
+
+cartIcon.addEventListener('click', ()=>{
+  open_cart();
+  show_cart_list();
+})
+
+cartLayer.addEventListener('click', (e)=>{
+  if(e.target !== cartLayer) return;
+ close_cart() ;
+})
+
+
+
+// items 
 document.querySelectorAll('button').forEach(button =>
   button.addEventListener('click', ({ target }) => {
     const name = target.parentNode.querySelector('.menu-name').textContent;
@@ -66,3 +103,4 @@ function update_tax_dom() {
 function set_tax_dom(value) {
   document.querySelector('.total-price').textContent = value;
 }
+
