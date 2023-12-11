@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #F2EEE9;
+  background-color: #f2eee9;
   font: normal 13px/1.5 Georgia, Serif;
   color: #333;
 }
@@ -20,8 +20,6 @@ body {
   align-items: flex-end;
   flex-direction: column;
 }
-
-
 
 h1 {
   display: inline-block;
@@ -69,7 +67,7 @@ button {
   border: none;
   border-radius: 8px;
   padding: 4px 14px;
-  background-color: #00A29E;
+  background-color: #00a29e;
   color: #ffffff;
   text-transform: uppercase;
   float: right;
@@ -84,7 +82,7 @@ button {
 }
 
 button:hover {
-  background-color: #00C6C2;
+  background-color: #00c6c2;
 }
 
 button:active {
@@ -97,7 +95,8 @@ span {
 
 .shopping-cart {
   display: inline-block;
-  background: url('http://cdn1.iconfinder.com/data/icons/jigsoar-icons/24/_cart.png') no-repeat 0 0;
+  background: url('http://cdn1.iconfinder.com/data/icons/jigsoar-icons/24/_cart.png')
+    no-repeat 0 0;
   width: 24px;
   height: 24px;
   margin: 0 10px 0 0;
@@ -106,18 +105,18 @@ span {
 .category {
   border-radius: 8px;
   background-color: #fff;
-  border: 1px solid #00A29E;
-  color: #00A29E;
+  border: 1px solid #00a29e;
+  color: #00a29e;
   padding: 6px;
 }
 
-p, .price {
+p,
+.price {
   height: 20px;
 }
 
-
 /* cart layer */
-#cart-layer{
+#cart-layer {
   display: none;
   position: fixed;
   top: 0;
@@ -127,46 +126,44 @@ p, .price {
   background-color: #21252940;
 }
 
-#cart-layer_inner{
-  width: 100%;
+#cart-layer_inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
   height: 100%;
-  padding: 16px;
-}
-
-#cart-layer_inner>h2{
-  font-size: large;
-  margin-bottom: 16px;
-}
-
-#cart-list{
-  float: right;
-  width: 50%;
-  height:100%;
   background-color: #fff;
 }
 
-#cart-list .cart-item{
-  width: 100%;
+#cart-layer_inner > h2 {
+  font-size: large;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+#cart-list {
+  padding: 16px;
+}
+
+#cart-list .cart-item {
   display: flex;
   gap: 4px;
   background-color: #00585760;
   border-radius: 8px;
   padding: 16px;
-   
 }
 
-#cart-list .cart-item>.name{
+#cart-list .cart-item > .name {
   width: 100%;
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-#cart-list .cart-item>.category{
+#cart-list .cart-item > .category {
   width: 24px;
   height: 24px;
 }
 
-
-#cart-list .cart-item>.price{
+#cart-list .cart-item > .price {
   font-weight: 700;
 }
