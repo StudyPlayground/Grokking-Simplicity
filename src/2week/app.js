@@ -42,7 +42,7 @@ function formatCurrencyToNumber(priceText) {
 }
 
 function formatNumberToCurrency(priceNum) {
-  return priceNum;
+  return priceNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원';
 }
 
 // items
@@ -64,41 +64,40 @@ function add_item_to_cart(item) {
   calc_cart_total();
 }
 
+// Q : 왜 cart_total 과 tax DOM 업데이트를 2번 해줘야 할까?
 function calc_cart_total() {
   shopping_cart_total = 0;
   for (var i = 0; i < shopping_cart.length; i++) {
     var item = shopping_cart[i];
     shopping_cart_total += item.price;
   }
-  set_cart_total_dom(shopping_cart_total);
+  set_total_price_dom(shopping_cart_total);
+  update_tax_dom(shopping_cart_total);
   update_shipping_icons();
-  update_tax_dom();
 }
 
-function set_cart_total_dom(total) {
-  document.querySelector('.total-price').textContent = total;
-}
 
 function update_shipping_icons() {
   var buy_buttons = get_buy_buttons_dom();
   for (var i = 0; i < buy_buttons.length; i++) {
     var item = buy_buttons[i];
     console.log(item);
-    if (item.price + shopping_cart_total >= 20) item.show_free_shopping_icon();
-    else item.hide_free_shopping_icon();
+    if (item.price + shopping_cart_total >= 20000) item.show_free_shipping_icon();
+    else item.hide_free_shipping_icon();
   }
 }
 
+// Q: shopping_cart를 복제하고, 무료 배송 아이콘을 보여주는 기능이 추가된 객체 배열. 
 function get_buy_buttons_dom() {
   var buttons = [];
-
+  const free_shipping_icon = document.querySelector('.free-shipping');
   for (var i = 0; i < shopping_cart.length; i++) {
     var item = shopping_cart[i];
-    item.show_free_shopping_icon = function () {
-      console.log('DOM 의 아이콘을 보여줍니다');
+    item.show_free_shipping_icon = function () {
+      free_shipping_icon.classList.remove('hidden');
     };
-    item.hide_free_shopping_icon = function () {
-      console.log('DOM 의 아이콘을 숨깁니다');
+    item.hide_free_shipping_icon = function () {
+      free_shipping_icon.classList.add('hidden')
     };
     buttons.push(item);
   }
@@ -106,10 +105,25 @@ function get_buy_buttons_dom() {
   return buttons;
 }
 
-function update_tax_dom() {
-  set_tax_dom(shopping_cart_total);
+// tax를 더한다는 것을 제외하면 set_calc_total_dom 동작과 같음, calc+total 을 관리하는 돔으로 통합하는 건 ?
+function update_tax_dom( cartTotal) {
+  const tax = calc_tax(cartTotal)
+  set_total_price_dom(cartTotal + tax);
 }
 
-function set_tax_dom(value) {
-  document.querySelector('.total-price').textContent = value;
+function set_total_price_dom(totalNum){
+  document.querySelector('.total-price').textContent = formatNumberToCurrency(totalNum);
+}
+
+// function set_tax_dom(value) {
+//   document.querySelector('.total-price').textContent = formatNumberToCurrency(value);
+// }
+
+// function set_cart_total_dom(total) {
+//   document.querySelector('.total-price').textContent = formatNumberToCurrency(total);
+// }
+
+
+function calc_tax(total){
+  return total * 0.1
 }

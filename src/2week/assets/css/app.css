@@ -93,6 +93,10 @@ span {
   float: right;
 }
 
+.hidden {
+  display: none;
+}
+
 .shopping-cart {
   display: inline-block;
   background: url('http://cdn1.iconfinder.com/data/icons/jigsoar-icons/24/_cart.png')
@@ -100,6 +104,11 @@ span {
   width: 24px;
   height: 24px;
   margin: 0 10px 0 0;
+}
+
+.free-shipping{
+  text-transform: uppercase;
+  color: red;
 }
 
 .category {
