@@ -5,7 +5,7 @@
 
 body {
   background-color: #f2eee9;
-  font: normal 13px/1.5 Georgia, Serif;
+  font: normal 13px/1.5 'sans-serif';
   color: #333;
 }
 
@@ -106,9 +106,14 @@ span {
   margin: 0 10px 0 0;
 }
 
-.free-shipping{
-  text-transform: uppercase;
-  color: red;
+.free-shipping-icon {
+  color: #fff;
+  font-size: 13px;
+  background: #212529;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-top: 10px;
+  float: left;
 }
 
 .category {
@@ -151,11 +156,16 @@ p,
 }
 
 #cart-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   padding: 16px;
 }
 
 #cart-list .cart-item {
+  width: 100%;
   display: flex;
+  align-items: center;
   gap: 4px;
   background-color: #00585760;
   border-radius: 8px;
@@ -174,5 +184,6 @@ p,
 }
 
 #cart-list .cart-item > .price {
+  width: 20%;
   font-weight: 700;
 }
