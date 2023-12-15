@@ -1,0 +1,33 @@
+const ShoppingCart = () => {
+    const shopping_cart = [];
+    const shopping_cart_total = shopping_cart.reduce((item,acc)=> acc + item.price, 0);
+
+
+    const cartGetter = () => [...shopping_cart]
+    
+    const cartTotalGetter = () => shopping_cart_total
+    
+    const cartSetter = (action, item) => {
+        switch(action){
+            case 'add' :
+                shopping_cart = [...shopping_cart, item]
+                break;
+            case 'update' :
+                
+               break;
+            case 'delete':
+
+                break; 
+            default :
+                throw new Error('Action must be one of "add", "update", or "delete"')
+            }
+        }
+
+
+    return {
+        cartGetter,
+        cartTotalGetter,
+        cartSetter,
+    }}
+
+    export default ShoppingCart;

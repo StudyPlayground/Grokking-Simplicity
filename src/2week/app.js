@@ -1,10 +1,10 @@
+import ShoppingCart from "./cart";
 
 
-var shopping_cart = [];
-var shopping_cart_total = 0;
+const {cartGetter: getCart, cartTotalGetter: getCartTotal, cartSetter: setCart} = ShoppingCart()
+
 
 const cartLayer = document.getElementById('cart-layer');
-const cartList = document.getElementById('cart-list');
 const cartIcon = document.querySelector('.carts>.icons');
 const productList = document.querySelector('.items');
 
@@ -12,7 +12,7 @@ const productList = document.querySelector('.items');
 // event_cart :  oepn & close
 cartIcon.addEventListener('click', () => {
   show_dom(cartLayer);
-  set_cart_list_dom(shopping_cart, cartList);
+  set_cart_list_dom();
 });
 
 cartLayer.addEventListener('click', (e) => {
@@ -21,8 +21,9 @@ cartLayer.addEventListener('click', (e) => {
 });
 
 
-function set_cart_list_dom(cartItems, cartContainer) {
-  cartContainer.innerHTML = cartItems.map(
+function set_cart_list_dom() {
+  const cartList = document.getElementById('cart-list');
+  cartList.innerHTML = getCart().map(
       (item) => `
         <div class='cart-item'>
         <span class='category'>${item.category}</span>
@@ -44,24 +45,31 @@ productList.querySelectorAll('.add-to-cart').forEach((button) =>
 
     /* 전역 변수를 인자로 넘겨줬지만, 공유 객체이므로 카피해서 사용해야 하겠지? */
 
-    // cart change
-    shopping_cart = add_item_to_cart({ name, category, price }, shopping_cart);
+    // cart change  
+    // before : shopping_cart = add_item_to_cart({ name, category, price }, getCart());
+    setCart('add', {name, category, price})
 
     // total change
-    shopping_cart_total = calc_cart_total(shopping_cart)
+    // before : shopping_cart_total = calc_cart_total(shopping_cart)
+    // after :cart change 하면 자동으로 cart total update 
 
     // product change
-    update_shipping_icons(shopping_cart_total);
-  })
+    update_shipping_icons_dom(getCartTotal());
+    set_total_price_dom(getCartTotal());
+
+    /* set_total_price_dom 에 통합
+     update_tax_dom(getCartTotal());
+    */
+    })
 );
 
-function add_item_to_cart(item, cart) {
-  return [...cart, item]
-}
+// function add_item_to_cart(item, cart) {
+  // return [...cart, item]
+// }
 
 // header(total), main(product), cart(product)
-function calc_cart_total(cart) {
-  const total = 0;
+/* function calc_cart_total(cart) {
+   let total = 0;
   for (var i = 0; i < cart.length; i++) {
     var item = cart[i];
     total += item.price;
@@ -70,26 +78,25 @@ function calc_cart_total(cart) {
   set_total_price_dom(total);
   update_tax_dom(total);
   return total;
-}
+}*/
 
-//header(total)
+/* header(total)
 function update_tax_dom(total) {
   // tax를 더한다는 것을 제외하면 set_calc_total_dom 동작과 같음, calc+total 을 관리하는 돔으로 통합 
   set_total_price_dom(total + calc_tax(total));
 }
+*/
 
-function set_total_price_dom(totalNum) {
+function set_total_price_dom(total) {
   document.querySelector('.total-price').textContent =
-    formatNumberToCurrency(totalNum);
+    formatNumberToCurrency(total)+calc_tax(total);
 }
 
 
 // main(product)
-function update_shipping_icons(total) {
-  var buy_buttons = get_buy_buttons_dom();
-  for (var i = 0; i < buy_buttons.length; i++) {
-    // 제품 item + shpping icon 기능 추가된 객체
-    var btn = buy_buttons[i];
+function update_shipping_icons_dom(total) {
+  const buy_buttons = get_buy_buttons_dom();
+  buy_buttons.forEach((btn)=>{
     const btn_item_price = formatCurrencyToNumber(
       btn.parentNode.querySelector('.price').textContent
     );
@@ -97,16 +104,16 @@ function update_shipping_icons(total) {
       btn.show_free_shipping_icon();
     else btn.hide_free_shipping_icon();
   }
+  )
+  
 }
 
 // main(product)
 function get_buy_buttons_dom() {
-  var buttons = [];
   const add_to_cart_btns = document.querySelectorAll('.add-to-cart');
   // Q: 구매하기 버튼
   // shopping_cart를 도는 게 아니라 상품 전체를 돌아야 함
-  for (var i = 0; i < add_to_cart_btns.length; i++) {
-    var btn = add_to_cart_btns[i];
+  return add_to_cart_btns.map(btn => {
     btn.show_free_shipping_icon = function () {
       this.parentNode
         .querySelector('.free-shipping-icon')
@@ -117,11 +124,7 @@ function get_buy_buttons_dom() {
         .querySelector('.free-shipping-icon')
         .classList.add('hidden');
     };
-    buttons.push(btn);
-  }
-
-  return buttons;
-}
+    })}
 
 
 
@@ -152,7 +155,7 @@ function show_dom(el) {
 }
 
 // utils ? - DOM
-function hide_dom() {
+function hide_dom(el) {
   el.style.display = 'none';
 }
 
