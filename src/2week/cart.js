@@ -1,16 +1,16 @@
 const ShoppingCart = () => {
-    const shopping_cart = [];
-    const shopping_cart_total = shopping_cart.reduce((item,acc)=> acc + item.price, 0);
+    let shopping_cart = [];
 
 
     const cartGetter = () => [...shopping_cart]
     
-    const cartTotalGetter = () => shopping_cart_total
+    const cartTotalGetter = () =>  shopping_cart.reduce((acc,item)=> acc + item.price, 0);
     
     const cartSetter = (action, item) => {
         switch(action){
             case 'add' :
                 shopping_cart = [...shopping_cart, item]
+                console.log(shopping_cart)
                 break;
             case 'update' :
                 

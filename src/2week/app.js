@@ -1,4 +1,4 @@
-import ShoppingCart from "./cart";
+import ShoppingCart from "./cart.js";
 
 
 const {cartGetter: getCart, cartTotalGetter: getCartTotal, cartSetter: setCart} = ShoppingCart()
@@ -9,7 +9,6 @@ const cartIcon = document.querySelector('.carts>.icons');
 const productList = document.querySelector('.items');
 
 
-// event_cart :  oepn & close
 cartIcon.addEventListener('click', () => {
   show_dom(cartLayer);
   set_cart_list_dom();
@@ -35,109 +34,73 @@ function set_cart_list_dom() {
     .join('');
 }
 
+function get_dom_text (className, target = document){
+return target.querySelector(`${className}`).textContent;
+}
 
-// event_products - add to cart   
+function get_dom_num (className, target = document){
+  return formatToNumber(target.querySelector(`${className}`).textContent);
+}
+
+const ITEM_STRING =['name', 'category'];
+const ITEM_NUMBER = ['price']
+
+function make_cart_item(keys,target = document){
+  const cartItem = {}
+  keys.forEach(key => {
+    if( ITEM_STRING.includes(key)){
+      cartItem[key] = get_dom_text(key,target)
+    }else{
+      cartItem[key] = get_dom_num(key, target)
+    }
+  })
+  return cartItem;
+}
+
+
 productList.querySelectorAll('.add-to-cart').forEach((button) =>
   button.addEventListener('click', ({ target }) => {
-    const name = target.parentNode.querySelector('.menu-name').textContent;
-    const category = target.parentNode.querySelector('.category').textContent;
-    const price = formatCurrencyToNumber(target.parentNode.querySelector('.price').textContent);
+    const name = get_dom_text('name', target.parentNode);
+    const category = get_dom_text('category', target.parentNode);
+    const price = get_dom_num('price', target.parentNode);
 
-    /* 전역 변수를 인자로 넘겨줬지만, 공유 객체이므로 카피해서 사용해야 하겠지? */
-
-    // cart change  
-    // before : shopping_cart = add_item_to_cart({ name, category, price }, getCart());
     setCart('add', {name, category, price})
-
-    // total change
-    // before : shopping_cart_total = calc_cart_total(shopping_cart)
-    // after :cart change 하면 자동으로 cart total update 
-
-    // product change
     update_shipping_icons_dom(getCartTotal());
     set_total_price_dom(getCartTotal());
-
-    /* set_total_price_dom 에 통합
-     update_tax_dom(getCartTotal());
-    */
     })
 );
 
-// function add_item_to_cart(item, cart) {
-  // return [...cart, item]
-// }
-
-// header(total), main(product), cart(product)
-/* function calc_cart_total(cart) {
-   let total = 0;
-  for (var i = 0; i < cart.length; i++) {
-    var item = cart[i];
-    total += item.price;
-  }
-  // Q : 왜 cart_total 과 tax DOM 업데이트를 2번 해줘야 할까?
-  set_total_price_dom(total);
-  update_tax_dom(total);
-  return total;
-}*/
-
-/* header(total)
-function update_tax_dom(total) {
-  // tax를 더한다는 것을 제외하면 set_calc_total_dom 동작과 같음, calc+total 을 관리하는 돔으로 통합 
-  set_total_price_dom(total + calc_tax(total));
-}
-*/
-
 function set_total_price_dom(total) {
   document.querySelector('.total-price').textContent =
-    formatNumberToCurrency(total)+calc_tax(total);
+    formatNumberToCurrency(total+calc_tax(total));
 }
 
-
-// main(product)
 function update_shipping_icons_dom(total) {
   const buy_buttons = get_buy_buttons_dom();
   buy_buttons.forEach((btn)=>{
-    const btn_item_price = formatCurrencyToNumber(
-      btn.parentNode.querySelector('.price').textContent
-    );
+    const btn_item_price = get_dom_num('price',btn.parentNode)
     if (is_free_shipping(btn_item_price, total))
       btn.show_free_shipping_icon();
     else btn.hide_free_shipping_icon();
   }
-  )
-  
+  ) 
 }
 
-// main(product)
 function get_buy_buttons_dom() {
-  const add_to_cart_btns = document.querySelectorAll('.add-to-cart');
-  // Q: 구매하기 버튼
-  // shopping_cart를 도는 게 아니라 상품 전체를 돌아야 함
+  const add_to_cart_btns = Array.from(document.querySelectorAll('.add-to-cart'));
   return add_to_cart_btns.map(btn => {
     btn.show_free_shipping_icon = function () {
       this.parentNode
         .querySelector('.free-shipping-icon')
         .classList.remove('hidden');
-    };
+      };
     btn.hide_free_shipping_icon = function () {
       this.parentNode
         .querySelector('.free-shipping-icon')
         .classList.add('hidden');
-    };
+      };
+      return btn
     })}
-
-
-
-
-
-// function set_tax_dom(value) {
-//   document.querySelector('.total-price').textContent = formatNumberToCurrency(value);
-// }
-
-// function set_cart_total_dom(total) {
-//   document.querySelector('.total-price').textContent = formatNumberToCurrency(total);
-// }
-
 
 
 // 비즈니스 - 세금 
@@ -160,10 +123,16 @@ function hide_dom(el) {
 }
 
 // utils - format
+function formatToNumber(text){
+  return parseFloat(text.replace(/[^\d]/g,''));
+}
+/*
 function formatCurrencyToNumber(priceText) {
   const regex = /,/g;
   return parseFloat(priceText.replace(regex, ''));
 }
+
+*/
 
 function formatNumberToCurrency(priceNum) {
   return priceNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
