@@ -13,3 +13,15 @@ try {
 } catch (error) {
   logToSnapErrors(error);
 }
+
+// 고차함수로 만들기
+function wrappingTryCatch(f) {
+  return function (arg) {
+      try {
+      f(arg);
+    } catch (error) {
+      logToSnapErrors(error);
+    }
+  }
+}
+const getUserDataWithTryCatch = wrappingTryCatch(getUserData)

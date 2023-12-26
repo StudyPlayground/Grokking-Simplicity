@@ -26,6 +26,14 @@ function setTaxByName(cart, name, tax) {
   return newCart;
 }
 
+// 함수 이름에 있는 암묵적 인자를 새로운 인자로 바꾸기
+function setValueByName(cart, name, key, value) {
+  var item = cart[name];
+  var newItem = objectSet(item, key, value);
+  var newCart = objectSet(cart, name, newItem);
+  return newCart;
+}
+
 function objectSet(object, key, value) {
   var copy = Object.assign({}, object);
   copy[key] = value;
