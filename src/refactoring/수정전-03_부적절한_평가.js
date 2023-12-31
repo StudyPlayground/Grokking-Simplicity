@@ -1,18 +1,18 @@
 const per2Int = (value, per) => (value * per) / 100;
 
 const Client = ({ name, type, location }) => {
-  this.offers = {
+  const _offers = {
     normal: 0,
     premium: 20,
   };
-  this.name = name;
-  this.type = type;
-  this.location = location;
+  const _name = name;
+  const _type = type;
+  const _location = location;
 
-  getName = () => this.name;
-  getType = () => this.name;
-  getLocation = () => this.location;
-  getPriceByProduct = product => product.value - per2Int(product.value, this.offers[this.type]);
+  getName = () => _name;
+  getType = () => _type;
+  getLocation = () => _location;
+  getPriceByProduct = product => product.getValue() - per2Int(product.getValue(), _offers[_type]);
 
   return {
     getName,
@@ -23,13 +23,13 @@ const Client = ({ name, type, location }) => {
 };
 
 const Product = ({ value, name, shipping }) => {
-  this.value = value;
-  this.name = name;
-  this.shipping = shipping;
+  const _value = value;
+  const _name = name;
+  const _shipping = shipping;
 
-  getValue = () => this.value;
-  getProductName = () => this.name;
-  getShipping = () => this.shipping;
+  getValue = () => _value;
+  getProductName = () => _name;
+  getShipping = () => _shipping;
 
   return {
     getValue,
@@ -38,47 +38,66 @@ const Product = ({ value, name, shipping }) => {
   };
 };
 
-const Order = ({ id, value, client, product }) => {
-  this.taxes = {
+const Order = ({ id, client, product }) => {
+  const _taxes = {
     EU: 21,
     USA: 14,
   };
-  this.id = id;
-  this.value = value;
-  this.client = client;
-  this.product = product;
+  const _id = id;
+  const _client = client;
+  const _product = product;
 
-  getId = () => this.id;
-  getValue = () => this.value;
-  getClient = () => this.client;
-  getProduct = () => this.product;
-  getTaxes = loc => this.getTaxes(this.taxes[loc]);
+  getId = () => _id;
+  getClient = () => _client;
+  getProduct = () => _product;
+  getTaxes = loc => _taxes[loc];
 
   return {
     getId,
-    getValue,
     getClient,
     getProduct,
+    getTaxes,
   };
 };
 
 const Summary = ({ order }) => {
-  this.order = order;
+  const _order = order;
 
   printSummary = () => {
-    let client = order.getClient();
-    let product = order.product();
+    let client = _order.getClient();
+    let product = _order.getProduct();
 
-    return `Order: ${order.getId()}
+    const summary =  `Order: ${_order.getId()}
                 Client: ${client.getName()}
                 Product: ${product.getProductName()}
-                TotalAmount: ${client.getPriceByProduct(product) + this.order.getTaxes(client.getLocation())}
+                TotalAmount: ${client.getPriceByProduct(product) + _order.getTaxes(client.getLocation())}
                 
                 
-                Arrival in: ${this.order.product.getShipping()} days.`;
+                Arrival in: ${_order.getProduct().getShipping()} days.`;
+    console.log(summary);
   };
 
   return {
     printSummary,
   };
 };
+
+const client = Client({
+  name: 'Max',
+  type: 'premium',
+  location: 'USA'
+});
+const product = Product({
+  name: 'iPhone',
+  value: 100,
+  shipping: 3
+});
+const order = Order({
+  id: '123',
+  client,
+  product,
+})
+const summary = Summary({
+  order: order,
+});
+summary.printSummary();
