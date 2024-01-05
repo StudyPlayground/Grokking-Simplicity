@@ -1,3 +1,11 @@
+function setValueByName(cart, name, key, value) {
+  var item = cart[name];
+  var newItem = objectSet(item, key, value);
+  var newCart = objectSet(cart, name, newItem);
+  return newCart;
+}
+
+// setValueByName (cart, name, 'price', price)
 function setPriceByName(cart, name, price) {
   var item = cart[name];
   var newItem = objectSet(item, 'price', price);

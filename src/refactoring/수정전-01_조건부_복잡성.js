@@ -1,60 +1,54 @@
-const getAnimalEmoji = animal => {
-  if (animal === 'dog') {
-    return '🐶';
-  } else if (animal === 'cat') {
-    return '🐱';
-  } else if (animal === 'frog') {
-    return '🐸';
-  } else if (animal === 'panda') {
-    return '🐼';
-  } else if (animal === 'giraffe') {
-    return '🦒';
-  } else if (animal === 'monkey') {
-    return '🐵';
-  } else if (animal === 'unicorn') {
-    return '🦄';
-  } else if (animal === 'dragon') {
-    return '🐲';
-  }
+// 01. mapping
+const AnimalEmojiMap = {
+  dog: '🐶',
+  cat: '🐱',
+  frog: '🐸',
+  panda: '🐼',
+  giraffe: '🦒',
+  monkey: '🐵',
+  unicorn: '🦄',
+  dragon: '🐲',
+};
+
+const getAnimalEmoji = (animal) => {
+  return AnimalEmojiMap[animal];
 };
 console.log(getAnimalEmoji('dragon'));
 
-const printMyAnimal = animal => {
-  if (animal === 'dog' || animal === 'cat') {
-    console.log(`I have a ${animal}`);
-  }
+// 02. includes
+const MY_ANIMAL = ['dog', 'cat'];
+const printMyAnimal = (animal) => {
+  MY_ANIMAL.includes(animal) && console.log(`I have a ${animal}`);
 };
+
 console.log(printMyAnimal('dog'));
 
-const getAnimalDetails = animal => {
-  let result;
+//03. find
+const ANIMAL_PROPERTIES = ['type', 'name', 'gender'];
 
-  if (animal) {
-    if (animal.type) {
-      if (animal.name) {
-        if (animal.gender) {
-          result = `${animal.name} is a ${animal.gender} ${animal.type}`;
-        } else {
-          result = 'No animal gender';
-        }
-      } else {
-        result = 'No animal name';
-      }
-    } else {
-      result = 'No animal type';
-    }
-  } else {
-    result = 'No animal';
+const hasProperty = (obj, key) => Object.keys(obj).includes(key);
+
+const getAnimalDetails = (animal) => {
+  if (typeof animal !== 'object') {
+    return 'No animal';
   }
 
-  return result;
+  const missingProperty = ANIMAL_PROPERTIES.find(
+    (property) => !hasProperty(animal, property)
+  );
+
+  return missingProperty
+    ? `No animal ${missingProperty}`
+    : `${animal.name} is a ${animal.gender} ${animal.type}`;
 };
+
 console.log(getAnimalDetails());
 console.log(getAnimalDetails({ type: 'dog', gender: 'female' }));
 console.log(getAnimalDetails({ type: 'dog', name: 'Lucy' }));
 console.log(getAnimalDetails({ type: 'dog', name: 'Lucy', gender: 'female' }));
 
-const printFruits = color => {
+//04. 01처럼 mapping 하면 안되나...?
+const printFruits = (color) => {
   switch (color) {
     case 'red':
       return ['apple', 'strawberry'];
@@ -69,12 +63,10 @@ const printFruits = color => {
 console.log(printFruits(null));
 console.log(printFruits('yellow'));
 
-const printVegetableName = vegetable => {
-  if (vegetable && vegetable.name) {
-    console.log(vegetable.name);
-  } else {
-    console.log('unknown');
-  }
+//05. 논리 연산자
+const printVegetableName = (vegetable) => {
+  const vegetableName = (vegetable && vegetable.name) || 'unknown';
+  console.log(vegetableName);
 };
 printVegetableName(undefined);
 printVegetableName({});
@@ -95,15 +87,29 @@ const car = {
 const model = (car && car.model) || 'default model';
 
 const street =
-  (car && car.manufacturer && car.manufacturer.address && car.manufacturer.address.street) || 'default street';
+  (car &&
+    car.manufacturer &&
+    car.manufacturer.address &&
+    car.manufacturer.address.street) ||
+  'default street';
 
-const phoneNumber = car && car.manufacturer && car.manufacturer.address && car.manufacturer.phoneNumber;
+const phoneNumber =
+  car &&
+  car.manufacturer &&
+  car.manufacturer.address &&
+  car.manufacturer.phoneNumber;
+
 console.log(model);
 console.log(street);
 console.log(phoneNumber);
 
 const isManufacturerFromUSA = () => {
-  if (car && car.manufacturer && car.manufacturer.address && car.manufacturer.address.state === 'USA') {
+  if (
+    car &&
+    car.manufacturer &&
+    car.manufacturer.address &&
+    car.manufacturer.address.state === 'USA'
+  ) {
     console.log('true');
   }
 };
