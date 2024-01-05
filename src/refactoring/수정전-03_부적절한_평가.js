@@ -12,7 +12,8 @@ const Client = ({ name, type, location }) => {
   getName = () => this.name;
   getType = () => this.name;
   getLocation = () => this.location;
-  getPriceByProduct = product => product.value - per2Int(product.value, this.offers[this.type]);
+  getPriceByProduct = (product) =>
+    product.value - per2Int(product.value, this.offers[this.type]);
 
   return {
     getName,
@@ -52,7 +53,7 @@ const Order = ({ id, value, client, product }) => {
   getValue = () => this.value;
   getClient = () => this.client;
   getProduct = () => this.product;
-  getTaxes = loc => this.getTaxes(this.taxes[loc]);
+  getTaxes = (loc) => this.getTaxes(this.taxes[loc]);
 
   return {
     getId,
@@ -72,7 +73,10 @@ const Summary = ({ order }) => {
     return `Order: ${order.getId()}
                 Client: ${client.getName()}
                 Product: ${product.getProductName()}
-                TotalAmount: ${client.getPriceByProduct(product) + this.order.getTaxes(client.getLocation())}
+                TotalAmount: ${
+                  client.getPriceByProduct(product) +
+                  this.order.getTaxes(client.getLocation())
+                }
                 
                 
                 Arrival in: ${this.order.product.getShipping()} days.`;
