@@ -4,8 +4,8 @@
 }
 
 body {
-  background-color: #F2EEE9;
-  font: normal 13px/1.5 Georgia, Serif;
+  background-color: #f2eee9;
+  font: normal 13px/1.5 'sans-serif';
   color: #333;
 }
 
@@ -67,7 +67,7 @@ button {
   border: none;
   border-radius: 8px;
   padding: 4px 14px;
-  background-color: #00A29E;
+  background-color: #00a29e;
   color: #ffffff;
   text-transform: uppercase;
   float: right;
@@ -82,7 +82,7 @@ button {
 }
 
 button:hover {
-  background-color: #00C6C2;
+  background-color: #00c6c2;
 }
 
 button:active {
@@ -93,22 +93,97 @@ span {
   float: right;
 }
 
+.hidden {
+  display: none;
+}
+
 .shopping-cart {
   display: inline-block;
-  background: url('http://cdn1.iconfinder.com/data/icons/jigsoar-icons/24/_cart.png') no-repeat 0 0;
+  background: url('http://cdn1.iconfinder.com/data/icons/jigsoar-icons/24/_cart.png')
+    no-repeat 0 0;
   width: 24px;
   height: 24px;
   margin: 0 10px 0 0;
 }
 
+.free-shipping-icon {
+  color: #fff;
+  font-size: 13px;
+  background: #212529;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-top: 10px;
+  float: left;
+}
+
 .category {
   border-radius: 8px;
   background-color: #fff;
-  border: 1px solid #00A29E;
-  color: #00A29E;
+  border: 1px solid #00a29e;
+  color: #00a29e;
   padding: 6px;
 }
 
-p, .price {
+p,
+.price {
   height: 20px;
+}
+
+/* cart layer */
+#cart-layer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #21252940;
+}
+
+#cart-layer_inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  background-color: #fff;
+}
+
+#cart-layer_inner > h2 {
+  font-size: large;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+#cart-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+}
+
+#cart-list .cart-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #00585760;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+#cart-list .cart-item > .name {
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+#cart-list .cart-item > .category {
+  width: 24px;
+  height: 24px;
+}
+
+#cart-list .cart-item > .price {
+  width: 20%;
+  font-weight: 700;
 }
