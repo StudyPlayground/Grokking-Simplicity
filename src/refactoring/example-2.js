@@ -1,7 +1,7 @@
 function forEachExecutor(arr, callbacks) {
   for (var i = 0; i < arr.length; i++) {
     var el = arr[i];
-    callbacks[i](arr);
+    callbacks[i](el);
   }
 }
 
