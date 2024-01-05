@@ -1,22 +1,11 @@
-const getAnimalEmoji = animal => {
-  if (animal === 'dog') {
-    return '🐶';
-  } else if (animal === 'cat') {
-    return '🐱';
-  } else if (animal === 'frog') {
-    return '🐸';
-  } else if (animal === 'panda') {
-    return '🐼';
-  } else if (animal === 'giraffe') {
-    return '🦒';
-  } else if (animal === 'monkey') {
-    return '🐵';
-  } else if (animal === 'unicorn') {
-    return '🦄';
-  } else if (animal === 'dragon') {
-    return '🐲';
-  }
+const animalEmojis = {
+  dog: '🐶', cat: '🐱', frog: '🐸', 
+  panda: '🐼', giraffe: '🦒', 
+  monkey: '🐵', unicorn: '🦄', dragon: '🐲'
 };
+const getAnimalEmoji = animal => animalEmojis[animal];
+
+
 console.log(getAnimalEmoji('dragon'));
 
 const printMyAnimal = animal => {
@@ -27,28 +16,13 @@ const printMyAnimal = animal => {
 console.log(printMyAnimal('dog'));
 
 const getAnimalDetails = animal => {
-  let result;
-
-  if (animal) {
-    if (animal.type) {
-      if (animal.name) {
-        if (animal.gender) {
-          result = `${animal.name} is a ${animal.gender} ${animal.type}`;
-        } else {
-          result = 'No animal gender';
-        }
-      } else {
-        result = 'No animal name';
-      }
-    } else {
-      result = 'No animal type';
-    }
-  } else {
-    result = 'No animal';
-  }
-
-  return result;
+  if (!animal) return 'No animal';
+  if (!animal.type) return 'No animal type';
+  if (!animal.name) return 'No animal name';
+  if (!animal.gender) return 'No animal gender';
+  return `${animal.name} is a ${animal.gender} ${animal.type}`;
 };
+
 console.log(getAnimalDetails());
 console.log(getAnimalDetails({ type: 'dog', gender: 'female' }));
 console.log(getAnimalDetails({ type: 'dog', name: 'Lucy' }));
@@ -94,17 +68,14 @@ const car = {
 
 const model = (car && car.model) || 'default model';
 
-const street =
-  (car && car.manufacturer && car.manufacturer.address && car.manufacturer.address.street) || 'default street';
+const street = car?.manufacturer?.address?.street || 'default street';
+const phoneNumber = car?.manufacturer?.address?.phoneNumber || 'No phone number';
 
-const phoneNumber = car && car.manufacturer && car.manufacturer.address && car.manufacturer.phoneNumber;
 console.log(model);
 console.log(street);
 console.log(phoneNumber);
 
 const isManufacturerFromUSA = () => {
-  if (car && car.manufacturer && car.manufacturer.address && car.manufacturer.address.state === 'USA') {
-    console.log('true');
-  }
+  return car?.manufacturer?.address?.state === 'USA';
 };
 console.log(isManufacturerFromUSA());

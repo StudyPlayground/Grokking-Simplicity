@@ -62,6 +62,8 @@ class User {
   get userPhone() {
     return this.phone;
   }
+
+  
 }
 
 const phone1 = new Phone('+34635538973');
