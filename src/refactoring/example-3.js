@@ -18,9 +18,9 @@ try {
 }
 
 function WithLogToSnapErros(callback) {
-  return function (...args) {
+  return function (arg) {
     try {
-      callback(...args);
+      callback(arg);
     } catch (error) {
       logToSnapErrors(error);
     }
