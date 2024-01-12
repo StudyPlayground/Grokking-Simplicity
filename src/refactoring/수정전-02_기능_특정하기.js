@@ -34,7 +34,10 @@ class Phone {
     return `${this.unformattedNumber.substring(3, 6)}`;
   }
   get baseNumber() {
-    return `${this.unformattedNumber.substring(6, 9)} ${this.unformattedNumber.substring(9, 12)}`;
+    return `${this.unformattedNumber.substring(
+      6,
+      9
+    )} ${this.unformattedNumber.substring(9, 12)}`;
   }
 }
 
@@ -65,6 +68,12 @@ class User {
 }
 
 const phone1 = new Phone('+34635538973');
-const user1 = new User('Fernando', 'Aparicio Galende', '12345678S', phone1, 'fernando.aparicio@guidesmiths.com');
+const user1 = new User(
+  'Fernando',
+  'Aparicio Galende',
+  '12345678S',
+  phone1,
+  'fernando.aparicio@guidesmiths.com'
+);
 
 beforePrinter(user1, phone1);
