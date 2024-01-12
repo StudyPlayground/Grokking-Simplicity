@@ -1,8 +1,14 @@
 // FIXME: npm test /src/utils/unique.test.js
 
-// 어떤 것을 해볼까요?
-const unique = (arr, callback, isSorted) => {
-  return arr;
+//isSorted ? new Set : 배열 순회 및 중복 제거
+const unique = (arr, isSorted) => {
+  const uniqueSorted = () => [...new Set(arr)];
+  const uniqueUnsorted = () =>
+    arr.reduce((acc, cur) => {
+      return acc.indexOf(cur) !== -1 ? acc : [...acc, cur];
+    }, []);
+
+  return !!isSorted ? uniqueSorted(arr) : uniqueUnsorted(arr);
 };
 
 describe('unique 테스트', () => {
@@ -34,12 +40,23 @@ describe('unique 테스트', () => {
       expect(thirdUniqueArray).toEqual([1, 2, 3]);
     });
 
-    it('case: 3, Advanced', () => {
+    it.only('case: 3, Advanced', () => {
       const objects = [
         { x: 1, y: 2 },
         { x: 2, y: 1 },
         { x: 1, y: 2 },
       ];
+
+      const unique = (objects) => {
+        return objects.reduce((acc, cur) => {
+          const isDuplicate = acc.some((obj) =>
+            Object.entries(obj).every(([key, value]) => cur[key] === value)
+          );
+
+          return isDuplicate ? acc : [...acc, cur];
+        }, []);
+      };
+
       const uniqueObjects = unique(objects);
 
       expect(uniqueObjects).toEqual([
