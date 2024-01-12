@@ -2,8 +2,23 @@
 
 // 어떤 것을 해볼까요?
 const groupBy = (arr, callback) => {
-  return arr;
+  if (typeof callback === 'function' && typeof callback === 'object') {
+    return arr.reduce((obj, element) => addElement(obj, callback(element), element), {})
+  }
+  if (typeof callback === 'number') {
+    return arr.reduce((obj, element) => addElement(obj, element(callback), element), {})
+  }
+  throw new Error("Can't do anything.")
 };
+
+const addElement = (obj, key, value) => {
+  if (obj.hasOwnProperty(key)) {
+    obj[key] = [...obj[key], value]
+  } else {
+    obj[key] = [value]
+  }
+  return obj;
+}
 
 describe('groupBy 테스트', () => {
   describe('non-lazy', () => {
