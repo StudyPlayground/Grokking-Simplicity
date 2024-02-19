@@ -1,11 +1,7 @@
+const sum = (a, b) => a + b;
+
 function accumulate(arr) {
-  let accumulator = 0;
-
-  for (let i = 0; i < arr.length; i++) {
-    accumulator += arr[i];
-  }
-
-  return accumulator;
+  return arr.reduce(sum, 0);
 }
 
 exports.accumulate = accumulate;
